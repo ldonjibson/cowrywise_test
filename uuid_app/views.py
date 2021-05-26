@@ -15,4 +15,5 @@ def generate_uuid(request):
 	gen = UUIDTABLE.objects.create(uuid_id=uuid.uuid4())
 	queryset = UUIDTABLE.objects.all()
 	data = serializers.serialize('json', queryset)
-	return JsonResponse({"status": "success", "payload": json.loads(data)}, status=201)
+	new_data = { obj['created_at'] : obj['uuid_id'] for obj in (json.loads(data))}
+	return JsonResponse({"status": "success", "payload": new_data}, status=201)
